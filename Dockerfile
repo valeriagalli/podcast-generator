@@ -9,6 +9,10 @@ RUN pip3 install PyYAML
 
 # standard location for linux
 COPY feed.py /usr/bin/feed.py
-COPY entrypoint.sh /entrypoint.sh # this one in the root directory
+
+# entrypoint script in root directory
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
