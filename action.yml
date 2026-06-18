@@ -1,21 +1,32 @@
+# Define the display name of the action
 name: "Podcast Generator"
+
+# Identify the author or creator of this specific action step
 author: VG
+
+# Provide a brief explanation of what the action accomplishes 
 description: "Generates a feed for a podcast from a YAML file"
 
+# Define the runner mechanism and environment strategy
 runs:
+  # Instruct GitHub to package and isolate this step inside a custom container
   using: "docker"
+  # Point directly to the Dockerfile in repository root to compile the runtime image
   image: "Dockerfile"
 
+# Customize the visual card look (only to publish on GitHub Marketplace)
 branding: 
-  icon: "git-branch"
-  color: "red"
+  icon: "git-branch" # Sets the icon graphic next to your action name
+  color: "red"        # Sets the background color theme of the action's badge
 
+# Declare the variables that users can pass into this action from their workflows
 inputs:
   email:
-    description: The committer's email address
-    required: True
-    default: ${{ github.actor }}@localhost
+    description: The committer's email address                     
+    required: true                                                 
+    default: "${{ github.actor }}@localhost"                        # Default value using the triggering username if none is supplied
   name:
-    description: The committer's user name
-    required: True
-    default: ${{ github.actor }}
+    description: The committer's user name                      
+    required: true                                                
+    default: "${{ github.actor }}"                                 # Default value defaults strictly to the triggering user's GitHub handle
+
