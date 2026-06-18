@@ -1,15 +1,21 @@
-#! bin/bash # specifies which interpreter
+#!/bin/bash
+# Specify the system shell path to interpret this script
 
-echo "==========================="  # prints out to command line
+echo "==========================="  # Visual separator for clean action logging
 
-git config --global user.name ${GITHUB_ACTOR} # to keep track of who is running the action (which user)
-git config --global user.email ${INPUT_EMAIL} # same as above but email address
-git config --global --add safe.directory /github/workspace # adding to safe list of directories to run git operations
+# Configure Git identity using dynamic GitHub environment variables
+git config --global user.name "${GITHUB_ACTOR}" # Set global commit author name to the triggering user
+git config --global user.email "${INPUT_EMAIL}" # Set global commit author email from action input metadata
 
+# Trust the default GitHub Actions working directory to prevent strict ownership errors
+git config --global --add safe.directory /github/workspace 
+
+# Execute the core python script to regenerate the podcast files
 python3 /usr/bin/feed.py
 
-git add -A
-git commit -m "Update feed"
-git push --set-upstream origin main # make sure upstream branch is setup (new clean machine)
+# Stage, commit, and sync the newly generated feed files back to GitHub
+git add -A # Track all new, modified, and deleted files in the workspace
+git commit -m "Update feed" 
+git push --set-upstream origin main # Push changes and establish tracking for this branch on a clean runner
 
 echo "===========================" 
